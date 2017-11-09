@@ -17,19 +17,49 @@ router.post('/register.do', function(req, res) {
     console.log('폼입력값 : ', name, phone, id, pwd);
 
     var userModel = new UserModel();
-    user._id = 1;
-    user.name = name;
-    user.userid = id;
-    user.userpwd = pwd;
-    user.phone = phone;
+    userModel._id = Date.now();
+    userModel.name = name;
+    userModel.userid = id;
+    userModel.userpwd = pwd;
+    userModel.phone = phone;
 
-    res.redirect('/home.do');
+    userModel.save(function(err) {
+        if(err) throw err;
+        res.redirect('/home.do');
+    })
 })
 
 router.get('/register.do', function(req, res) {
     res.render('user/form');
 });
 
+router.post('/login.do', function(req, res, next) {
+    var userid = req.body.userid;
+    var userpwd = req.body.userpwd;
+
+    UserModel.find({userid:userid}, function(err, users) {
+        if(err) throw err;
+
+    if(!users.length) {
+        return next(new Error('아이디 혹은 비밀번호가 일치하지 않습니다.'));
+    }
+    var dbUser = users[0];
+    if(dbUser.userpwd != userpwd) {
+        return next(new Error('아이디 혹은 비밀번호가 일치하지 않습니다.'));
+    }
+
+    req.session['LOGIN_USER'] = dbUser;
+
+    res.redirect('/home.do');
+    })
+})
+
+router.get('/logout.do', function(req, res) {
+    req.session.destroy( function(err) {
+        res.locals['logined'] = false;
+        res.redirect('/home.do');
+    });
+})
 
 
 module.exports = router;
