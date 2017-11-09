@@ -27,11 +27,7 @@ app.use(function(req, res, next) {
     next();
 })
 
-app.use(function(req, res, next) {
-    console.log(req.session);
-
-    next();
-})
+// 요청 url과 매핑되는 미들웨어 함수 등록 및 url라우팅
 
 app.get('/home.do', function(req, res) {
     res.render('home');
@@ -42,6 +38,17 @@ app.get('/', function(req, res) {
 
 app.use('/user', require('./routers/user'));
 app.use('/todo', require('./routers/todo'));
+
+// 404 에러 처리
+app.use(function(req, res) {
+    res.status(404);
+    res.render('error/404page');
+})
+// 500 에러 처리
+app.use(function(err, req, res, next) {
+    res.status(500);
+    res.render('error/500page', {error : err});
+})
 
 app.listen(3000, function() {
     console.log('웹 서버 시작');

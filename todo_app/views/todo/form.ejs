@@ -1,5 +1,25 @@
 <% include ../common/header %>
 
-    <h1>새 일정 등록 폼</h1>
+<div class="row col-sm-6 col-sm-offset-3 well">
 
+
+    <form action="register.do" method="post">
+        <h1>새 일정</h1>
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" name="title">
+        </div>
+        <div class="form-group">
+            <label for="dates">전화번호</label>
+            <input type="date" class="form-control" name="dates">
+        </div>
+        <div class="form-group">
+            <label for="">설명</label>
+            <textarea class="form-control" name="desc"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-md btn-primary">등록</button>
+
+    </form>
+</div>
 <% include ../common/footer %>

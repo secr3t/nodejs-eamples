@@ -1,0 +1,14 @@
+<% include ../common/header %>
+
+<div class="jumbotron">
+    <h1>500 - Internal Server Error</h1>
+    <% if(error) { %>
+    <p><%= error %></p>
+    <%} else { %>
+    <p>요청 처리중 오류가 발생하였습니다.</p>
+    <p>현재 페이지가 계속 될 경우 관리자에게 문의하세요.</p>
+    <% } %>
+
+</div>
+
+<% include ../common/footer %>
